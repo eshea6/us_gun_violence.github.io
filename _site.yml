@@ -1,0 +1,26 @@
+name: "P8105 Final Website"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Gun Violence - Overview"
+      href: intro_page.html
+    - text: "Firearms Mortality"
+      href: https://zanis-shiny.shinyapps.io/zanis_shiny/
+    - text: "Regression Analysis"
+      href: zanis_regression.html
+    - text: "Gun Control by State"
+      href: gun_control2.html
+    - text: "Conclusions"
+      href: conclusions.html
+    - text: "Webcast"
+      href: webcast.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<you@youremail.com>
+    - icon: fa-github fa-lg
+      href: https://github.com/ChristineLong/p8105_Final_Project
+output:
+  html_document: 
+    theme: cosmo

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Crude Death Rate Prediction Using Economic, Law and Health Predictors</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="intro_page.html">Gun Violence - Overview</a>
+</li>
+<li>
+  <a href="https://zanis-shiny.shinyapps.io/zanis_shiny/">Firearms Mortality</a>
+</li>
+<li>
+  <a href="zanis_regression.html">Regression Analysis</a>
+</li>
+<li>
+  <a href="gun_control2.html">Gun Control by State</a>
+</li>
+<li>
+  <a href="conclusions.html">Conclusions</a>
+</li>
+<li>
+  <a href="webcast.html">Webcast</a>
+</li>
+<li>
+  <a href="mailto:&lt;you@youremail.com&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/ChristineLong/p8105_Final_Project">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Crude Death Rate Prediction Using Economic, Law and Health Predictors</h1>
+
+</div>
+
+
+<div id="correlation-matrix" class="section level3">
+<h3>Correlation Matrix</h3>
+<center>
+<p><img src="zanis_regression_files/figure-html/correlation_table-1.png" width="672" /></p>
+</center>
+<p><em>Comments:</em></p>
+<p>Strong correlations can be seen among several pairs of variables. To minimize multi-collinearity, model should be selected carefully.</p>
+<p>Most of the variates follows approximately normal distribution.</p>
+</div>
+<div id="best-model-at-given-number-of-variables" class="section level3">
+<h3>“Best” model at given number of variables</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+<th align="left">6</th>
+<th align="left">7</th>
+<th align="left">8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>diabetes</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">*</td>
+</tr>
+<tr class="even">
+<td>disability</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left"></td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left"></td>
+<td align="left">*</td>
+<td align="left">*</td>
+</tr>
+<tr class="odd">
+<td>drinking</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+</tr>
+<tr class="even">
+<td>law_strength_2016_only</td>
+<td align="left"></td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+</tr>
+<tr class="odd">
+<td>leisure_physical_activities</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+</tr>
+<tr class="even">
+<td>mental_health</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td>overweight</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td>population</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td>poverty</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td>self_reported_health</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+</tr>
+<tr class="odd">
+<td>sleep</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td>smoking</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+</tr>
+<tr class="odd">
+<td>unemployment_rate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+<td align="left">*</td>
+</tr>
+</tbody>
+</table>
+<p><em>Comments:</em></p>
+<p>It seems that “Law Strength”, “Smoking”, “Disability”, “Unemployment Rate” are strong predictors. “Leisure Physical Activities” appears in large models.</p>
+</div>
+<div id="r-square-bic-cp-regression-sum-of-squares-residual-sum-of-squares" class="section level3">
+<h3>R square, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares</h3>
+<center>
+<p><img src="zanis_regression_files/figure-html/model_selection-1.png" width="672" /></p>
+</center>
+<p><em>Comments:</em></p>
+<p>Model with four predictors seems to have highest adjusted R square, lowest BIC and Cp, and is among the highest regression mean sum of squares and among the lowest residual mean sum of squares. Six-predictor model has similar parameters with four-predictor model except for the higher BIC than four-predictor model.</p>
+</div>
+<div id="two-selected-models" class="section level3">
+<h3>Two selected models</h3>
+<p><strong>Model from stepwise:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">10.4708267</td>
+<td align="right">4.6327477</td>
+<td align="right">2.260176</td>
+<td align="right">0.0289302</td>
+</tr>
+<tr class="even">
+<td align="left">drinking</td>
+<td align="right">-0.6333038</td>
+<td align="right">0.3807451</td>
+<td align="right">-1.663327</td>
+<td align="right">0.1035197</td>
+</tr>
+<tr class="odd">
+<td align="left">law_strength_2016_only</td>
+<td align="right">-0.1759851</td>
+<td align="right">0.0299607</td>
+<td align="right">-5.873866</td>
+<td align="right">0.0000006</td>
+</tr>
+<tr class="even">
+<td align="left">leisure_physical_activities</td>
+<td align="right">-0.3321040</td>
+<td align="right">0.1482859</td>
+<td align="right">-2.239619</td>
+<td align="right">0.0303397</td>
+</tr>
+<tr class="odd">
+<td align="left">self_reported_health</td>
+<td align="right">0.3079383</td>
+<td align="right">0.2168874</td>
+<td align="right">1.419807</td>
+<td align="right">0.1628735</td>
+</tr>
+<tr class="even">
+<td align="left">smoking</td>
+<td align="right">0.4285323</td>
+<td align="right">0.1605796</td>
+<td align="right">2.668659</td>
+<td align="right">0.0106983</td>
+</tr>
+<tr class="odd">
+<td align="left">unemployment_rate</td>
+<td align="right">1.3501531</td>
+<td align="right">0.4602038</td>
+<td align="right">2.933815</td>
+<td align="right">0.0053517</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+<th align="right">sigma</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>value</td>
+<td align="right">0.7730692</td>
+<td align="right">0.7414044</td>
+<td align="right">2.475718</td>
+<td align="right">24.41418</td>
+<td align="right">0</td>
+<td align="right">7</td>
+</tr>
+</tbody>
+</table>
+<p><em>Comments:</em></p>
+<p>Drinking, law strength, leisure seem to negatively associate with the firearm crude death rate. Self-rated health, smoking and unemployment rate positively associate with crude death rate.</p>
+<p><strong>Criteria based model:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-3.8337969</td>
+<td align="right">5.0898242</td>
+<td align="right">-0.7532278</td>
+<td align="right">0.4552359</td>
+</tr>
+<tr class="even">
+<td align="left">disability</td>
+<td align="right">0.3050451</td>
+<td align="right">0.1719631</td>
+<td align="right">1.7738989</td>
+<td align="right">0.0828465</td>
+</tr>
+<tr class="odd">
+<td align="left">law_strength_2016_only</td>
+<td align="right">-0.1683490</td>
+<td align="right">0.0320384</td>
+<td align="right">-5.2545962</td>
+<td align="right">0.0000039</td>
+</tr>
+<tr class="even">
+<td align="left">smoking</td>
+<td align="right">0.2598411</td>
+<td align="right">0.1371695</td>
+<td align="right">1.8943066</td>
+<td align="right">0.0646220</td>
+</tr>
+<tr class="odd">
+<td align="left">unemployment_rate</td>
+<td align="right">1.2927511</td>
+<td align="right">0.4552585</td>
+<td align="right">2.8395980</td>
+<td align="right">0.0067578</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+<th align="right">sigma</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">df</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>value</td>
+<td align="right">0.7565902</td>
+<td align="right">0.7349538</td>
+<td align="right">2.506406</td>
+<td align="right">34.96835</td>
+<td align="right">0</td>
+<td align="right">5</td>
+</tr>
+</tbody>
+</table>
+<p><em>Comments:</em></p>
+<p>Disability, smoking, unemployment rate positively associate with the firearm crude death rate. Law strength negatively associate with crude death rate.</p>
+</div>
+<div id="model-diagnostics" class="section level3">
+<h3>Model diagnostics</h3>
+<center>
+<p><img src="zanis_regression_files/figure-html/model_diagnostics-1.png" width="672" /></p>
+</center>
+<p><em>Comments:</em> For both models, no severe outliers observed. Residuals seem to follow normal distribution. Box-cox transformation show that no transformation of crude death rate is necessary in both models. Residuals don’t hold constant over fitted values, but still around zero and not severely biased.</p>
+</div>
+<div id="cross-validation" class="section level3">
+<h3>Cross validation</h3>
+<center>
+<p><img src="zanis_regression_files/figure-html/crossvalidation-1.png" width="672" /></p>
+</center>
+<p><em>Comments:</em></p>
+<p>Four-predictor model seems to have slightly lower root mean square errors than six-predictor model. They are both better than a trivival model y ~ 1. We would choose four-predictor model.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

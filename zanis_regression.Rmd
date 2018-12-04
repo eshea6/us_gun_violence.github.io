@@ -1,0 +1,183 @@
+---
+title: "Crude Death Rate Prediction Using Economic, Law and Health Predictors"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(PerformanceAnalytics)
+library(modelr)
+```
+
+### Correlation Matrix
+
+<center>
+
+```{r correlation_table, message = FALSE, warning = FALSE}
+
+data_for_reg <- read_csv("./data/merged_data.csv") %>%
+	filter(year == 2016) %>% 
+	spread(key = type_variable, value = Statistics) %>% 
+	janitor::clean_names() %>% 
+	filter(complete.cases(.)) %>% 
+	mutate(law_strength_2016_only = 51 - law_strength_2016_only) %>% 
+	select(-state, -year, -deaths)
+
+chart.Correlation(data_for_reg)
+```
+
+</center>
+
+*Comments:*
+
+Strong correlations can be seen among several pairs of variables. To minimize multi-collinearity, model should be selected carefully.
+
+Most of the variates follows approximately normal distribution.
+
+
+### "Best" model at given number of variables
+
+```{r generate_models, results = FALSE}
+crude_rate_reg <- lm(data = data_for_reg, formula = crude_rate ~ .)
+stepwise_lm <- step(crude_rate_reg, direction = "backward")
+
+(criteria_reg <- leaps::regsubsets(crude_rate ~ ., data = data_for_reg) %>% summary())
+
+```
+
+```{r criteria_based}
+
+criteria_df <- as_tibble(criteria_reg$outmat) %>%
+	mutate("n_pred" = row_number()) %>%
+	select(n_pred, everything()) %>% 
+	t()
+
+colnames(criteria_df) <- c(1:8)
+criteria_df[-1, ] %>% knitr::kable()
+	
+	
+```
+
+*Comments:*
+
+It seems that "Law Strength", "Smoking", "Disability", "Unemployment Rate" are strong predictors. "Leisure Physical Activities" appears in large models.
+
+
+### R square, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares
+
+<center>
+
+```{r model_selection}
+
+tibble(
+	n_pred = c(1:8),
+	"Adjusted R-square" = criteria_reg$adjr2,
+	"BIC" = criteria_reg$bic,
+	"Cp" = criteria_reg$cp,
+	"Regression Square Error" = criteria_reg$rsq,
+	"Residual Sum Square" = criteria_reg$rss
+	) %>%
+	gather(key = "Statistics", value = "value", 2:6) %>%
+	ggplot(aes(x = n_pred, y = value)) +
+	  geom_point() +
+	  geom_line() +
+	  facet_grid(Statistics ~ ., scales = "free_y") +
+	  labs(
+	  	x = "Number of Predictors",
+	  	y = "Values",
+	  	title = "Model selection"
+	  )
+```
+
+</center>
+
+*Comments:*
+
+Model with four predictors seems to have highest adjusted R square, lowest BIC and Cp, and is among the highest regression mean sum of squares and among the lowest residual mean sum of squares. Six-predictor model has similar parameters with four-predictor model except for the higher BIC than four-predictor model.
+
+### Two selected models
+
+**Model from stepwise:**
+
+```{r stepwise}
+summary(stepwise_lm) %>% broom::tidy() %>% knitr::kable()
+summary(stepwise_lm) %>% broom::glance() %>% knitr::kable()
+
+```
+
+*Comments:*
+
+Drinking, law strength, leisure seem to negatively associate with the firearm crude death rate. Self-rated health, smoking and unemployment rate positively associate with crude death rate.
+
+**Criteria based model:**
+
+```{r criteria}
+
+criteria_lm <- lm(data = data_for_reg, formula = crude_rate ~ disability +
+										law_strength_2016_only + smoking + unemployment_rate)
+summary(criteria_lm) %>% broom::tidy() %>% knitr::kable()
+summary(criteria_lm) %>% broom::glance() %>% knitr::kable()
+```
+
+*Comments:*
+
+Disability, smoking, unemployment rate positively associate with the firearm crude death rate. Law strength negatively associate with crude death rate.
+
+### Model diagnostics
+
+<center>
+
+```{r model_diagnostics}
+par(mfrow = c(2,5))
+MASS::boxcox(criteria_lm)
+plot(criteria_lm)
+MASS::boxcox(stepwise_lm)
+plot(stepwise_lm)
+```
+
+</center>
+
+*Comments:*
+For both models, no severe outliers observed. Residuals seem to follow normal distribution. Box-cox transformation show that no transformation of crude death rate is necessary in both models. Residuals don't hold constant over fitted values, but still around zero and not severely biased.
+
+### Cross validation
+
+<center>
+
+```{r crossvalidation}
+
+
+crossv_mc(data_for_reg, 100) %>% 
+	mutate(train = map(train, as_tibble),
+				 test = map(test, as_tibble)) %>%
+	mutate(stpws_mdl = map(train, ~lm(crude_rate ~ drinking +
+																			law_strength_2016_only +
+																			leisure_physical_activities +
+																			self_reported_health +
+																			smoking +
+																			unemployment_rate,
+																		data = .x)),
+				 triv_mdl = map(train, ~lm(crude_rate ~ 1,
+																		data = .x)),
+				 crt_mdl = map(train, ~lm(crude_rate ~ disability +
+				 												 	law_strength_2016_only +
+				 												 	smoking +
+				 												 	unemployment_rate,
+				 												 data = .x))) %>% 
+	mutate(rmse_stpws = map2_dbl(stpws_mdl, test, ~rmse(model = .x, data = .y)),
+				 rmse_triv = map2_dbl(triv_mdl, test, ~rmse(model = .x, data = .y)),
+				 rmse_crt   = map2_dbl(crt_mdl, test, ~rmse(model = .x, data = .y))) %>% 
+	select(starts_with("rmse")) %>%
+	gather(key = model, value = rmse) %>% 
+	ggplot(aes(x = model, y = rmse)) +
+	  geom_violin()
+
+
+```
+
+</center>
+
+*Comments:*
+
+Four-predictor model seems to have slightly lower root mean square errors than six-predictor model. They are both better than a trivival model y ~ 1. We would choose four-predictor model.
