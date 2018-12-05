@@ -157,24 +157,29 @@ Disability, smoking, and unemployment rate are all  positively associated with t
 
 <center>
 
-```{r model_diagnostics}
-# show boxcox, residuals diagnosis
-print("Criteria-based model (4 predictors)")
-par(mfrow = c(1,5))
-MASS::boxcox(criteria_lm)
-title("Boxcox Transformation")
+*Criteria-based model (4 predictors)*
+
+```{r model_diagnostics_citr}
+# show residuals diagnosis
+par(mfrow = c(1,4))
 plot(criteria_lm)
-print("Stepwise model (6 predictors)")
-par(mfrow = c(1,5))
-MASS::boxcox(stepwise_lm)
-title("Boxcox Transformation")
+```
+
+<br>
+
+*Stepwise model (6 predictors)*
+
+```{r model_diagnostics_stpws}
+# show residuals diagnosis
+par(mfrow = c(1,4))
 plot(stepwise_lm)
+
 ```
 
 </center>
 
 *Comments:*
-For both models, no severe outliers were observed. Residuals seem to follow a normal distribution. Box-Cox transformation show that no transformation of crude death rate is necessary in either model. Residuals don't hold constant over fitted values, but are still clustered around zero and not severely biased.
+For both models, no severe outliers were observed. Residuals seem to follow a normal distribution. Residuals don't hold constant over fitted values, but are still clustered around zero and not severely biased.
 
 <br>
 
