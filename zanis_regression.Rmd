@@ -161,7 +161,7 @@ Disability, smoking, and unemployment rate are all  positively associated with t
 
 ```{r model_diagnostics_citr}
 # show residuals diagnosis
-par(mfrow = c(1,4))
+par(mfrow = c(2, 2))
 plot(criteria_lm)
 ```
 
@@ -171,7 +171,7 @@ plot(criteria_lm)
 
 ```{r model_diagnostics_stpws}
 # show residuals diagnosis
-par(mfrow = c(1,4))
+par(mfrow = c(2, 2))
 plot(stepwise_lm)
 
 ```
