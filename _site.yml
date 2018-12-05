@@ -3,8 +3,6 @@ output_dir: "."
 navbar:
   title: "Home"
   right:
-    - text: "About"
-      href: about.html
     - text: "Gun Violence - Overview"
       href: intro_page.html
     - text: "Firearms Mortality"
@@ -17,6 +15,8 @@ navbar:
       href: conclusions.html
     - text: "Webcast"
       href: webcast.html
+    - text: "About"
+      href: about.html
     - icon: fa-github fa-lg
       href: https://github.com/eshea6/us_gun_violence.github.io
 output:

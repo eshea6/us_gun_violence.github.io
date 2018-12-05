@@ -125,11 +125,13 @@ The model with four predictors seems to have the highest adjusted R-squared valu
 **Model from stepwise selection:**
 
 ```{r stepwise}
+
 # get statistics for model generated from stepwise regression
 summary(stepwise_lm) %>% broom::tidy() %>% knitr::kable()
 summary(stepwise_lm) %>% broom::glance() %>% knitr::kable()
 
 ```
+
 
 *Comments:*
 
