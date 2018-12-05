@@ -4,10 +4,12 @@ title: "**Gun Violence in the United States**"
 
 ## Mapping the relationship between gun violence and gun laws in the US
 
-### *Eileen, Devon, Christine, Zanis, and Marisa* 
+### *Eileen Shea, Devon Morgan, Yuelin Long, Zanis Fang, and Marisa Sobel* 
 
 <br>
 
 <center>
-<img src="images/NYT_photo.jpg" style="width:75%">
+<img src="images/NYT_photo.jpg" style="width:75%">  
+*Image from* [*New York Times*](https://www.nytimes.com/2018/03/24/opinion/gun-reform-battle-plan.html)
 </center>
+

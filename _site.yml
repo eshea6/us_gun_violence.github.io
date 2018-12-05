@@ -17,10 +17,8 @@ navbar:
       href: conclusions.html
     - text: "Webcast"
       href: webcast.html
-    - icon: fa-envelope fa-lg
-      href: mailto:<you@youremail.com>
     - icon: fa-github fa-lg
-      href: https://github.com/ChristineLong/p8105_Final_Project
+      href: https://github.com/mhsobel/p8105_Final.github.io
 output:
   html_document: 
     theme: cosmo
