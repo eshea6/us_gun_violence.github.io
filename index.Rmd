@@ -2,7 +2,7 @@
 title: "**Gun Violence in the United States**"
 ---
 
-## Mapping the relationship between gun violence and gun laws in the US
+## Mapping and exploring gun violence and gun climate in the U.S.
 
 ### *Eileen Shea, Devon Morgan, Yuelin Long, Zanis Fang, and Marisa Sobel* 
 
