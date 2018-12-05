@@ -5,6 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+# loading necessary packages
 library(tidyverse)
 library(PerformanceAnalytics)
 library(modelr)
@@ -15,15 +16,17 @@ library(modelr)
 <center>
 
 ```{r correlation_table, message = FALSE, warning = FALSE}
-
+# read tidy dataset
 data_for_reg <- read_csv("./data/merged_data.csv") %>%
 	filter(year == 2016) %>% 
 	spread(key = type_variable, value = Statistics) %>% 
 	janitor::clean_names() %>% 
 	filter(complete.cases(.)) %>% 
+	# large number means low strength rank, so flip it
 	mutate(law_strength_2016_only = 51 - law_strength_2016_only) %>% 
 	select(-state, -year, -deaths)
 
+# show correlation matrix
 chart.Correlation(data_for_reg)
 ```
 
@@ -39,15 +42,17 @@ Most of the variates follows approximately normal distribution.
 ### "Best" model at given number of variables
 
 ```{r generate_models, results = FALSE}
+# stepwise regression
 crude_rate_reg <- lm(data = data_for_reg, formula = crude_rate ~ .)
 stepwise_lm <- step(crude_rate_reg, direction = "backward")
 
+# generate best subset for predictor number less than 8
 (criteria_reg <- leaps::regsubsets(crude_rate ~ ., data = data_for_reg) %>% summary())
 
 ```
 
 ```{r criteria_based}
-
+# generate "best subset" table
 criteria_df <- as_tibble(criteria_reg$outmat) %>%
 	mutate("n_pred" = row_number()) %>%
 	select(n_pred, everything()) %>% 
@@ -69,7 +74,7 @@ It seems that "Law Strength", "Smoking", "Disability", "Unemployment Rate" are s
 <center>
 
 ```{r model_selection}
-
+# show model parameters for each model
 tibble(
 	n_pred = c(1:8),
 	"Adjusted R-square" = criteria_reg$adjr2,
@@ -79,6 +84,7 @@ tibble(
 	"Residual Sum Square" = criteria_reg$rss
 	) %>%
 	gather(key = "Statistics", value = "value", 2:6) %>%
+	# plotting against number of predictors
 	ggplot(aes(x = n_pred, y = value)) +
 	  geom_point() +
 	  geom_line() +
@@ -101,6 +107,7 @@ Model with four predictors seems to have highest adjusted R square, lowest BIC a
 **Model from stepwise:**
 
 ```{r stepwise}
+# get statistics for model generated from stepwise regression
 summary(stepwise_lm) %>% broom::tidy() %>% knitr::kable()
 summary(stepwise_lm) %>% broom::glance() %>% knitr::kable()
 
@@ -108,14 +115,16 @@ summary(stepwise_lm) %>% broom::glance() %>% knitr::kable()
 
 *Comments:*
 
-Drinking, law strength, leisure seem to negatively associate with the firearm crude death rate. Self-rated health, smoking and unemployment rate positively associate with crude death rate.
+Drinking, law strength, leisure seem to negatively associate with the firearm crude death rate. Self-rated health, smoking and unemployment rate positively associate with crude death rate. Note that the model generated from stepwise backward regression is the same as the "best subset" from criteria-based model search.
 
 **Criteria based model:**
 
 ```{r criteria}
-
+# "best subset" according to model parameters
 criteria_lm <- lm(data = data_for_reg, formula = crude_rate ~ disability +
 										law_strength_2016_only + smoking + unemployment_rate)
+
+# display statistics for criteria based "best subset" model
 summary(criteria_lm) %>% broom::tidy() %>% knitr::kable()
 summary(criteria_lm) %>% broom::glance() %>% knitr::kable()
 ```
@@ -129,6 +138,7 @@ Disability, smoking, unemployment rate positively associate with the firearm cru
 <center>
 
 ```{r model_diagnostics}
+# show boxcox, residuals diagnosis
 par(mfrow = c(2,5))
 MASS::boxcox(criteria_lm)
 plot(criteria_lm)
@@ -147,7 +157,7 @@ For both models, no severe outliers observed. Residuals seem to follow normal di
 
 ```{r crossvalidation}
 
-
+# crossvalidation
 crossv_mc(data_for_reg, 100) %>% 
 	mutate(train = map(train, as_tibble),
 				 test = map(test, as_tibble)) %>%
