@@ -13,7 +13,7 @@ output:
 <br>
 
 ### **Motivation**
-Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. The goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes.
+Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun control activists, and legislators. The goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes.
 
 <br>
 
@@ -23,25 +23,24 @@ Data from five sources were considered for this project. The data sources, scrap
 
 *  The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project). 
 
-*  The final website can be found [here](https://mhsobel.github.io/p8105_Final.github.io/), and corresponding Github repository for the website is located [here](https://github.com/mhsobel/p8105_Final.github.io).
+*  The final website can be found [here](https://eshea6.github.io/us_gun_violence.github.io/), and corresponding Github repository for the website is located [here](https://github.com/eshea6/us_gun_violence.github.io).
 
 *  The final report is housed in a repository [here](https://github.com/devon-m2/p8105_Gun-Violence_Final-Report). 
 
 <br>
 
 ### **Data**
-***Gun violence incident data*** can be accessed [here](https://www.kaggle.com/jameslko/gun-violence-data) and is from the [Gun Violence Archive](http://www.shootingtracker.com/), a "online archive of gun violence incidents collected from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide  near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization."
+***Gun violence incident data*** can be accessed [here](https://www.kaggle.com/jameslko/gun-violence-data) and is from the [Gun Violence Archive](http://www.shootingtracker.com/), an "online archive of gun violence incidents collected from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization."
 
 ***Firearm mortality data*** was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). Relevant parameters were selected to create our own dataset with only relevant variables. 
 
 ***Gun law scores of states*** is created by the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings) using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry". 
 
-Data on ***gun license applications*** was taken from the [The NICS background checks](https://www.statista.com/statistics/249687/number-of-background-checks-done-by-the-nics-in-the-us-by-state/) source, used by Federal Firearms Licensees (FFLs) to instantly determine whether a prospective buyer is eligible to buy firearms or explosives. This data is used to approximate how many people tried to apply for license in each state. 
+Data on ***gun license applications*** was taken from the [National Instant Criminal Background Check System (NICS)](https://www.statista.com/statistics/249687/number-of-background-checks-done-by-the-nics-in-the-us-by-state/), which is used by Federal Firearms Licensees (FFLs) to instantly determine whether a prospective buyer is eligible to buy firearms or explosives. This data is used to approximate how many people tried to apply for gun licenses in each state. 
 
-Data on [The number of federal firearms licensees in the U.S.](https://www.statista.com/statistics/215670/number-of-federal-firearms-licensees-in-the-us-by-state/) was downloaded from Statistica.com. This source pulls data from the U.S. Bureau of Alcohol, Tobacco, Firearms and Explosives (ATF), and is used to approximate how many people actually got approved for gun licenses in each state. 
+Data on the ***number of federal firearms licensees in the U.S.*** was downloaded from [Statista](https://www.statista.com/statistics/215670/number-of-federal-firearms-licensees-in-the-us-by-state/). This source pulls data from the U.S. Bureau of Alcohol, Tobacco, Firearms and Explosives (ATF), and is used to approximate how many people actually got approved for gun licenses in each state. 
 
-Data on total population was taken from [The total population across different states in the U.S.](https://www.statista.com/statistics/183497/population-in-the-federal-states-of-the-us/) source. It was used to standardize number of approved license and application numbers in different states. 
-
+***State total population data*** was also taken from [Statista](https://www.statista.com/statistics/183497/population-in-the-federal-states-of-the-us/). It was used to standardize the number of approved licenses and applications in different states. 
 
 ***Unemployment data*** come from...
 
