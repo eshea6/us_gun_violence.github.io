@@ -227,8 +227,16 @@ $(document).ready(function () {
 </div>
 
 
-<div id="correlation-matrix" class="section level3">
-<h3>Correlation Matrix</h3>
+<p><br></p>
+<div id="method" class="section level3">
+<h3>Method</h3>
+<p>Data from several sources were joined together into a merged dataset. We use 2016 year to build the model. Main outcome is crude death rate for each state, candidate predictors are law strength, unemployment rate, sleep time, smoking, self-reported health, overweight, population, poverty, mental health, leisure physical activity, drinking, disability and diabetes for each state. Two models were generated using criteria-based model selection and stepwise regression. Models were compared by BIC, adjusted R square, Cp, etc. Models were examined by distribution of residuals (QQ plot, residuals vs fitted value), outliers. We also used cross-validation to compare the two models.</p>
+<p><br></p>
+</div>
+<div id="result" class="section level3">
+<h3>Result</h3>
+<div id="correlation-matrix" class="section level4">
+<h4>Correlation Matrix</h4>
 <center>
 <p><img src="zanis_regression_files/figure-html/correlation_table-1.png" width="672" /></p>
 </center>
@@ -237,8 +245,9 @@ $(document).ready(function () {
 <p>Most of the variates follow approximately normal distributions.</p>
 <p><br></p>
 </div>
-<div id="best-model-for-a-given-number-of-variables" class="section level3">
-<h3>“Best” model for a given number of variables</h3>
+<div id="best-model-for-a-given-number-of-variables" class="section level4">
+<h4>“Best” model for a given number of variables</h4>
+<center>
 <table>
 <thead>
 <tr class="header">
@@ -399,12 +408,13 @@ $(document).ready(function () {
 </tr>
 </tbody>
 </table>
+</center>
 <p><em>Comments:</em></p>
 <p>It seems that “Law Strength”, “Smoking”, “Disability”, and “Unemployment Rate” are all strong predictors. “Leisure &amp; Physical Activities” appears in larger models.</p>
 <p><br></p>
 </div>
-<div id="r-squared-bic-cp-regression-sum-of-squares-residual-sum-of-squares" class="section level3">
-<h3>R-squared, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares</h3>
+<div id="r-squared-bic-cp-regression-sum-of-squares-residual-sum-of-squares" class="section level4">
+<h4>R-squared, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares</h4>
 <center>
 <p><img src="zanis_regression_files/figure-html/model_selection-1.png" width="672" /></p>
 </center>
@@ -412,8 +422,8 @@ $(document).ready(function () {
 <p>The model with four predictors seems to have the highest adjusted R-squared value, lowest BIC and Cp values, and has a high regression mean sum of squares and low residual mean sum of squares. The six-predictor model has similar model statistics as the four-predictor model, with the exception of the higher BIC value.</p>
 <p><br></p>
 </div>
-<div id="two-selected-models-of-interest" class="section level3">
-<h3>Two selected models of interest</h3>
+<div id="two-selected-models-of-interest" class="section level4">
+<h4>Two selected models of interest</h4>
 <p><strong>Model from stepwise selection:</strong></p>
 <table>
 <thead>
@@ -580,21 +590,30 @@ $(document).ready(function () {
 <p>Disability, smoking, and unemployment rate are all positively associated with the firearm crude death rate. Law strength is negatively associated with the firearm crude death rate.</p>
 <p><br></p>
 </div>
-<div id="model-diagnostics" class="section level3">
-<h3>Model diagnostics</h3>
+<div id="model-diagnostics" class="section level4">
+<h4>Model diagnostics</h4>
 <center>
+<pre><code>## [1] &quot;Criteria-based model (4 predictors)&quot;</code></pre>
 <p><img src="zanis_regression_files/figure-html/model_diagnostics-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Stepwise model (6 predictors)&quot;</code></pre>
+<p><img src="zanis_regression_files/figure-html/model_diagnostics-2.png" width="672" /></p>
 </center>
 <p><em>Comments:</em> For both models, no severe outliers were observed. Residuals seem to follow a normal distribution. Box-Cox transformation show that no transformation of crude death rate is necessary in either model. Residuals don’t hold constant over fitted values, but are still clustered around zero and not severely biased.</p>
 <p><br></p>
 </div>
-<div id="cross-validation" class="section level3">
-<h3>Cross validation</h3>
+<div id="cross-validation" class="section level4">
+<h4>Cross validation</h4>
 <center>
 <p><img src="zanis_regression_files/figure-html/crossvalidation-1.png" width="672" /></p>
 </center>
 <p><em>Comments:</em></p>
 <p>Our four-predictor model seems to have a slightly lower root-mean-squared error (RMSE) value than the six-predictor model. They are both better than the trivial model of y ~ 1. For parsimony, we would ultimately choose the four-predictor model.</p>
+<p><br></p>
+</div>
+</div>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>Four-predictor model (disability, smoking, unemployment rate, law strength) seems to perform a little better than six-predictor model (drinking, law strength, leisure, self-rated health, smoking and unemployment rate). Model diagnosis shows that the residuals of both models agree with the underlying assumption. Cross validation shows a little higher rmse for six-predictor model than four-predictor model. Disability, smoking, unemployment rate positively associate with the firearm crude death rate. Law strength negatively associate with crude death rate.</p>
 </div>
 
 

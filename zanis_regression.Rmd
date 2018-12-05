@@ -11,7 +11,17 @@ library(PerformanceAnalytics)
 library(modelr)
 ```
 
-### Correlation Matrix
+<br>
+
+### Method
+
+Data from several sources were joined together into a merged dataset. We use 2016 year to build the model. Main outcome is crude death rate for each state, candidate predictors are law strength, unemployment rate, sleep time, smoking, self-reported health, overweight, population, poverty, mental health, leisure physical activity, drinking, disability and diabetes for each state. Two models were generated using criteria-based model selection and stepwise regression. Models were compared by BIC, adjusted R square, Cp, etc. Models were examined by distribution of residuals (QQ plot, residuals vs fitted value), outliers. We also used cross-validation to compare the two models.
+
+<br>
+
+### Result
+
+#### Correlation Matrix
 
 <center>
 
@@ -40,7 +50,7 @@ Most of the variates follow approximately normal distributions.
 
 <br>
 
-### "Best" model for a given number of variables
+#### "Best" model for a given number of variables
 
 ```{r generate_models, results = FALSE}
 # stepwise regression
@@ -51,6 +61,8 @@ stepwise_lm <- step(crude_rate_reg, direction = "backward")
 (criteria_reg <- leaps::regsubsets(crude_rate ~ ., data = data_for_reg) %>% summary())
 
 ```
+
+<center>
 
 ```{r criteria_based}
 # generate "best subset" table
@@ -65,13 +77,15 @@ criteria_df[-1, ] %>% knitr::kable()
 	
 ```
 
+</center>
+
 *Comments:*
 
 It seems that "Law Strength", "Smoking", "Disability", and "Unemployment Rate" are all strong predictors. "Leisure & Physical Activities" appears in larger models.
 
 <br>
 
-### R-squared, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares
+#### R-squared, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares
 
 <center>
 
@@ -79,11 +93,11 @@ It seems that "Law Strength", "Smoking", "Disability", and "Unemployment Rate" a
 # show model parameters for each model
 tibble(
 	n_pred = c(1:8),
-	"Adjusted R-square" = criteria_reg$adjr2,
+	"Adj. R-sq" = criteria_reg$adjr2,
 	"BIC" = criteria_reg$bic,
 	"Cp" = criteria_reg$cp,
-	"Regression Square Error" = criteria_reg$rsq,
-	"Residual Sum Square" = criteria_reg$rss
+	"RSQ" = criteria_reg$rsq,
+	"RSS" = criteria_reg$rss
 	) %>%
 	gather(key = "Statistics", value = "value", 2:6) %>%
 	# plotting against number of predictors
@@ -106,7 +120,7 @@ The model with four predictors seems to have the highest adjusted R-squared valu
 
 <br>
 
-### Two selected models of interest
+#### Two selected models of interest
 
 **Model from stepwise selection:**
 
@@ -139,16 +153,21 @@ Disability, smoking, and unemployment rate are all  positively associated with t
 
 <br>
 
-### Model diagnostics
+#### Model diagnostics
 
 <center>
 
 ```{r model_diagnostics}
 # show boxcox, residuals diagnosis
-par(mfrow = c(2,5))
+print("Criteria-based model (4 predictors)")
+par(mfrow = c(1,5))
 MASS::boxcox(criteria_lm)
+title("Boxcox Transformation")
 plot(criteria_lm)
+print("Stepwise model (6 predictors)")
+par(mfrow = c(1,5))
 MASS::boxcox(stepwise_lm)
+title("Boxcox Transformation")
 plot(stepwise_lm)
 ```
 
@@ -159,11 +178,13 @@ For both models, no severe outliers were observed. Residuals seem to follow a no
 
 <br>
 
-### Cross validation
+#### Cross validation
 
 <center>
 
 ```{r crossvalidation}
+
+set.seed(37)
 
 # crossvalidation
 crossv_mc(data_for_reg, 100) %>% 
@@ -186,10 +207,18 @@ crossv_mc(data_for_reg, 100) %>%
 	mutate(rmse_stpws = map2_dbl(stpws_mdl, test, ~rmse(model = .x, data = .y)),
 				 rmse_triv = map2_dbl(triv_mdl, test, ~rmse(model = .x, data = .y)),
 				 rmse_crt   = map2_dbl(crt_mdl, test, ~rmse(model = .x, data = .y))) %>% 
-	select(starts_with("rmse")) %>%
-	gather(key = model, value = rmse) %>% 
+	select("Stepwise(6)" = rmse_stpws,
+	       "Trivival" = rmse_triv,
+	       "Criteria(4)" = rmse_crt) %>%
+	gather(key = model, value = rmse) %>%
 	ggplot(aes(x = model, y = rmse)) +
-	  geom_violin()
+	  geom_violin() +
+    labs(
+      x = "Models",
+      y = "Root Mean Squared Errors",
+      title = "Cross-validation"
+    )
+    
 
 
 ```
@@ -199,3 +228,9 @@ crossv_mc(data_for_reg, 100) %>%
 *Comments:*
 
 Our four-predictor model seems to have a slightly lower root-mean-squared error (RMSE) value than the six-predictor model. They are both better than the trivial model of y ~ 1. For parsimony, we would ultimately choose the four-predictor model.
+
+<br>
+
+### Conclusion
+
+Four-predictor model (disability, smoking, unemployment rate, law strength) seems to perform a little better than six-predictor model (drinking, law strength, leisure, self-rated health, smoking and unemployment rate). Model diagnosis shows that the residuals of both models agree with the underlying assumption. Cross validation shows a little higher rmse for six-predictor model than four-predictor model. Disability, smoking, unemployment rate positively associate with the firearm crude death rate. Law strength negatively associate with crude death rate.
