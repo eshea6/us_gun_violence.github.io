@@ -42,7 +42,11 @@ Data on the ***number of federal firearms licensees in the U.S.*** was downloade
 
 ***State total population data*** was also taken from [Statista](https://www.statista.com/statistics/183497/population-in-the-federal-states-of-the-us/). It was used to standardize the number of approved licenses and applications in different states. 
 
-***Unemployment data*** come from...
+***Unemployment data*** come from
+[FRED economic research](https://fred.stlouisfed.org/search?st=unemployment+rate). Each dataset describe percentage of unemployment in each state, not seasonally adjusted.
+
+***Chronic disease related data*** extract from
+[data.gov](https://catalog.data.gov/dataset/u-s-chronic-disease-indicators-cdi). Chronic disease related information, such as rate of heavy drinking, mental healthness, poverty, etc, in each state each year.
 
 <br>
 
