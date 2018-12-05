@@ -103,7 +103,8 @@ gun_climate_data =
 To quantify how strict are gun controls in different states, we are using:
 
 + [NICS](https://www.statista.com/statistics/249687/number-of-background-checks-done-by-the-nics-in-the-us-by-state/) background check data to approximate how many people tried to apply for gun licenses in each state; 
-+  [Federal firarm licensee](https://www.statista.com/statistics/215670/number-of-federal-firearms-licensees-in-the-us-by-state/) data to approximate how many people actually got approved for gun licenses in each state. 
++  [Federal firarm licensee](https://www.statista.com/statistics/215670/number-of-federal-firearms-licensees-in-the-us-by-state/) data to approximate how many people actually got approved for gun licenses in each state.
++ [The total population](https://www.statista.com/statistics/183497/population-in-the-federal-states-of-the-us/) in different states data to standardize number of approved license and application numbers in differently populated states. 
 
 Variable information:
 
@@ -212,6 +213,6 @@ gun_control %>%
 
 *Comments:*
 
-+ The percentage of people who tried to apply for gun licensing is relatively consistent across states, regardless of law strength in a given state. This shows that people across the country share an interest and enthusiasm in guns.  
-+ The notable exception is Kentucky. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people do not need a license or a permit to own guns for private use in Kentucky. This explains the exceptional passion to apply for guns in that locale, leading to an exceptionally high application rate. 
++ The percentage of people who tried to apply for gun licensing is relatively consistent across states, regardless of law strength in a given state. This shows that **people across the country share an interest and enthusiasm in guns**.  
++ The notable exception is **Kentucky**. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people do not need a license or a permit to own guns for private use in Kentucky. This explains the exceptional passion to apply for guns in that locale, leading to an exceptionally high application rate. 
 
