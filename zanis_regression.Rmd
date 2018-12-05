@@ -1,5 +1,5 @@
 ---
-title: "Crude Death Rate Prediction Using Economic, Law and Health Predictors"
+title: "Crude Death Rate Prediction Using Economic, Legal and Health-Related Predictors"
 output: html_document
 ---
 
@@ -36,10 +36,11 @@ chart.Correlation(data_for_reg)
 
 Strong correlations can be seen among several pairs of variables. To minimize multi-collinearity, model should be selected carefully.
 
-Most of the variates follows approximately normal distribution.
+Most of the variates follow approximately normal distributions.
 
+<br>
 
-### "Best" model at given number of variables
+### "Best" model for a given number of variables
 
 ```{r generate_models, results = FALSE}
 # stepwise regression
@@ -66,10 +67,11 @@ criteria_df[-1, ] %>% knitr::kable()
 
 *Comments:*
 
-It seems that "Law Strength", "Smoking", "Disability", "Unemployment Rate" are strong predictors. "Leisure Physical Activities" appears in large models.
+It seems that "Law Strength", "Smoking", "Disability", and "Unemployment Rate" are all strong predictors. "Leisure & Physical Activities" appears in larger models.
 
+<br>
 
-### R square, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares
+### R-squared, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares
 
 <center>
 
@@ -100,11 +102,13 @@ tibble(
 
 *Comments:*
 
-Model with four predictors seems to have highest adjusted R square, lowest BIC and Cp, and is among the highest regression mean sum of squares and among the lowest residual mean sum of squares. Six-predictor model has similar parameters with four-predictor model except for the higher BIC than four-predictor model.
+The model with four predictors seems to have the highest adjusted R-squared value, lowest BIC and Cp values, and has a high regression mean sum of squares and low residual mean sum of squares. The six-predictor model has similar model statistics as the four-predictor model, with the exception of the higher BIC value. 
 
-### Two selected models
+<br>
 
-**Model from stepwise:**
+### Two selected models of
+
+**Model from stepwise selection:**
 
 ```{r stepwise}
 # get statistics for model generated from stepwise regression
@@ -115,7 +119,7 @@ summary(stepwise_lm) %>% broom::glance() %>% knitr::kable()
 
 *Comments:*
 
-Drinking, law strength, leisure seem to negatively associate with the firearm crude death rate. Self-rated health, smoking and unemployment rate positively associate with crude death rate. Note that the model generated from stepwise backward regression is the same as the "best subset" from criteria-based model search.
+Drinking, law strength, and leisure all seem to be negatively associated with firearm crude death rate. Self-rated health, smoking, and unemployment rate are all positively associated with the firearm crude death rate.
 
 **Criteria based model:**
 
@@ -131,7 +135,9 @@ summary(criteria_lm) %>% broom::glance() %>% knitr::kable()
 
 *Comments:*
 
-Disability, smoking, unemployment rate positively associate with the firearm crude death rate. Law strength negatively associate with crude death rate.
+Disability, smoking, and unemployment rate are all  positively associated with the firearm crude death rate. Law strength is negatively associated with the firearm crude death rate.
+
+<br>
 
 ### Model diagnostics
 
@@ -149,7 +155,9 @@ plot(stepwise_lm)
 </center>
 
 *Comments:*
-For both models, no severe outliers observed. Residuals seem to follow normal distribution. Box-cox transformation show that no transformation of crude death rate is necessary in both models. Residuals don't hold constant over fitted values, but still around zero and not severely biased.
+For both models, no severe outliers were observed. Residuals seem to follow a normal distribution. Box-Cox transformation show that no transformation of crude death rate is necessary in either model. Residuals don't hold constant over fitted values, but are still clustered around zero and not severely biased.
+
+<br>
 
 ### Cross validation
 
@@ -190,4 +198,4 @@ crossv_mc(data_for_reg, 100) %>%
 
 *Comments:*
 
-Four-predictor model seems to have slightly lower root mean square errors than six-predictor model. They are both better than a trivival model y ~ 1. We would choose four-predictor model.
+Our four-predictor model seems to have a slightly lower root mean square error (RMSE) value than the six-predictor model. They are both better than the trivial model of y ~ 1. For parsimony, we would ultimately choose the four-predictor model.

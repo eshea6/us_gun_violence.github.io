@@ -11,7 +11,7 @@
 
 
 
-<title>Crude Death Rate Prediction Using Economic, Law and Health Predictors</title>
+<title>Crude Death Rate Prediction Using Economic, Legal and Health-Related Predictors</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -208,13 +208,7 @@ $(document).ready(function () {
   <a href="webcast.html">Webcast</a>
 </li>
 <li>
-  <a href="mailto:&lt;you@youremail.com&gt;">
-    <span class="fa fa-envelope fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="https://github.com/ChristineLong/p8105_Final_Project">
+  <a href="https://github.com/mhsobel/p8105_Final.github.io">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -228,7 +222,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Crude Death Rate Prediction Using Economic, Law and Health Predictors</h1>
+<h1 class="title toc-ignore">Crude Death Rate Prediction Using Economic, Legal and Health-Related Predictors</h1>
 
 </div>
 
@@ -240,10 +234,11 @@ $(document).ready(function () {
 </center>
 <p><em>Comments:</em></p>
 <p>Strong correlations can be seen among several pairs of variables. To minimize multi-collinearity, model should be selected carefully.</p>
-<p>Most of the variates follows approximately normal distribution.</p>
+<p>Most of the variates follow approximately normal distributions.</p>
+<p><br></p>
 </div>
-<div id="best-model-at-given-number-of-variables" class="section level3">
-<h3>“Best” model at given number of variables</h3>
+<div id="best-model-for-a-given-number-of-variables" class="section level3">
+<h3>“Best” model for a given number of variables</h3>
 <table>
 <thead>
 <tr class="header">
@@ -405,19 +400,21 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p><em>Comments:</em></p>
-<p>It seems that “Law Strength”, “Smoking”, “Disability”, “Unemployment Rate” are strong predictors. “Leisure Physical Activities” appears in large models.</p>
+<p>It seems that “Law Strength”, “Smoking”, “Disability”, and “Unemployment Rate” are all strong predictors. “Leisure &amp; Physical Activities” appears in larger models.</p>
+<p><br></p>
 </div>
-<div id="r-square-bic-cp-regression-sum-of-squares-residual-sum-of-squares" class="section level3">
-<h3>R square, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares</h3>
+<div id="r-squared-bic-cp-regression-sum-of-squares-residual-sum-of-squares" class="section level3">
+<h3>R-squared, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares</h3>
 <center>
 <p><img src="zanis_regression_files/figure-html/model_selection-1.png" width="672" /></p>
 </center>
 <p><em>Comments:</em></p>
-<p>Model with four predictors seems to have highest adjusted R square, lowest BIC and Cp, and is among the highest regression mean sum of squares and among the lowest residual mean sum of squares. Six-predictor model has similar parameters with four-predictor model except for the higher BIC than four-predictor model.</p>
+<p>The model with four predictors seems to have the highest adjusted R-squared value, lowest BIC and Cp values, and has a high regression mean sum of squares and low residual mean sum of squares. The six-predictor model has similar model statistics as the four-predictor model, with the exception of the higher BIC value.</p>
+<p><br></p>
 </div>
-<div id="two-selected-models" class="section level3">
-<h3>Two selected models</h3>
-<p><strong>Model from stepwise:</strong></p>
+<div id="two-selected-models-of" class="section level3">
+<h3>Two selected models of</h3>
+<p><strong>Model from stepwise selection:</strong></p>
 <table>
 <thead>
 <tr class="header">
@@ -505,7 +502,7 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p><em>Comments:</em></p>
-<p>Drinking, law strength, leisure seem to negatively associate with the firearm crude death rate. Self-rated health, smoking and unemployment rate positively associate with crude death rate.</p>
+<p>Drinking, law strength, and leisure all seem to be negatively associated with firearm crude death rate. Self-rated health, smoking, and unemployment rate are all positively associated with the firearm crude death rate.</p>
 <p><strong>Criteria based model:</strong></p>
 <table>
 <thead>
@@ -580,14 +577,16 @@ $(document).ready(function () {
 </tbody>
 </table>
 <p><em>Comments:</em></p>
-<p>Disability, smoking, unemployment rate positively associate with the firearm crude death rate. Law strength negatively associate with crude death rate.</p>
+<p>Disability, smoking, and unemployment rate are all positively associated with the firearm crude death rate. Law strength is negatively associated with the firearm crude death rate.</p>
+<p><br></p>
 </div>
 <div id="model-diagnostics" class="section level3">
 <h3>Model diagnostics</h3>
 <center>
 <p><img src="zanis_regression_files/figure-html/model_diagnostics-1.png" width="672" /></p>
 </center>
-<p><em>Comments:</em> For both models, no severe outliers observed. Residuals seem to follow normal distribution. Box-cox transformation show that no transformation of crude death rate is necessary in both models. Residuals don’t hold constant over fitted values, but still around zero and not severely biased.</p>
+<p><em>Comments:</em> For both models, no severe outliers were observed. Residuals seem to follow a normal distribution. Box-Cox transformation show that no transformation of crude death rate is necessary in either model. Residuals don’t hold constant over fitted values, but are still clustered around zero and not severely biased.</p>
+<p><br></p>
 </div>
 <div id="cross-validation" class="section level3">
 <h3>Cross validation</h3>
@@ -595,7 +594,7 @@ $(document).ready(function () {
 <p><img src="zanis_regression_files/figure-html/crossvalidation-1.png" width="672" /></p>
 </center>
 <p><em>Comments:</em></p>
-<p>Four-predictor model seems to have slightly lower root mean square errors than six-predictor model. They are both better than a trivival model y ~ 1. We would choose four-predictor model.</p>
+<p>Our four-predictor model seems to have a slightly lower root mean square error (RMSE) value than the six-predictor model. They are both better than the trivial model of y ~ 1. For parsimony, we would ultimately choose the four-predictor model.</p>
 </div>
 
 
