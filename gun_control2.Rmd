@@ -173,7 +173,7 @@ gun_control %>%
 
 *Comments:*
 
-Across different states, the approval rate for gun licenses is positively correlated with law strength. This is intuitive because we would expect it to be easier to be approved for a gun in states with less stringent gun laws. Also, with laxer gun laws states generally have higher mortality rates. A regression model was built to further explain this relationship, and information on this can be found through the **Regression Analysis** tab.
+Across different states, the approval rate for gun licenses is positively correlated with law strength. This is intuitive because we would expect it to be easier to be approved for a gun in states with less stringent gun laws. Also, with laxer gun laws states generally have higher mortality rates. A regression model was built to further explain this relationship, and information on this can be found through the [Regression Analysis](zanis_regression.html) tab.
 
 <br>
 
