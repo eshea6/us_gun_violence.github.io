@@ -106,7 +106,7 @@ The model with four predictors seems to have the highest adjusted R-squared valu
 
 <br>
 
-### Two selected models of
+### Two selected models of interest
 
 **Model from stepwise selection:**
 
@@ -198,4 +198,4 @@ crossv_mc(data_for_reg, 100) %>%
 
 *Comments:*
 
-Our four-predictor model seems to have a slightly lower root mean square error (RMSE) value than the six-predictor model. They are both better than the trivial model of y ~ 1. For parsimony, we would ultimately choose the four-predictor model.
+Our four-predictor model seems to have a slightly lower root-mean-squared error (RMSE) value than the six-predictor model. They are both better than the trivial model of y ~ 1. For parsimony, we would ultimately choose the four-predictor model.
