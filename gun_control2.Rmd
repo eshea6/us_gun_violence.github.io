@@ -98,19 +98,21 @@ gun_climate_data =
 
 
 
-### Complete dataset with all info for gun control
+### Gun Control Dataset Information
 
 To quantify how strict are gun controls in different states, we are using:
 
-+ [The NICS background checks](https://www.statista.com/statistics/249687/number-of-background-checks-done-by-the-nics-in-the-us-by-state/) are used by Federal Firearms Licensees (FFLs) to instantly determine whether a prospective buyer is eligible to buy firearms or explosives. This data is used to approximate how many people tried to apply for license in each state; 
-+ [The number of federal firearms licensees in the U.S.](https://www.statista.com/statistics/215670/number-of-federal-firearms-licensees-in-the-us-by-state/) is used to approximate how many people actually got approved for gun licenses in each state;
-+ The approval rate uses the proportion of licensees in the total population of the state to indicate the difficulties in getting apprroved for gun license;
-+ The application rate uses the proportion of background checks in the total population of the state to indicate people's willingness in applying for guns;
-+ Crude rate is the mortality rate due to gun violence;
-+ A numerical variable for law strength to indicate legislation strength in differnet states. The higher of law_strength value is, the less strict gun laws in the corresponding state.
-+ For consistency purposes, District of Columbia is not included; for gun control panel, we focus on year 2017.
++ [NICS](https://www.statista.com/statistics/249687/number-of-background-checks-done-by-the-nics-in-the-us-by-state/) background check data to approximate how many people tried to apply for gun licenses in each state; 
++  [Federal firarm licensee](https://www.statista.com/statistics/215670/number-of-federal-firearms-licensees-in-the-us-by-state/) data to approximate how many people actually got approved for gun licenses in each state. 
 
-#### Numerical variables
+Variable information:
+
++ The approval rate uses the proportion of licensees in the total population of the state to indicate the difficulties in getting apprroved for a gun license.
++ The application rate uses the proportion of background checks in the total population of the state to indicate people's willingness to apply for a gun license.
++ The crude rate is the mortality rate due to gun violence.
++ A numerical variable for law strength is used to indicate legislation strength in different states; the higher the law_strength value, the more lax the gun laws of a given state are.
++ The District of Columbia is excluded from the analysis and the gun control panel focuses on 2017. 
+
 ```{r echo=FALSE, include = FALSE}
 gun_control = gun_climate_data %>% 
   inner_join(gun_lic, by = "state") %>% 
@@ -124,7 +126,6 @@ skimr::skim(gun_control) %>%
   knitr::kable(digits = 1) 
 ```
 
-#### Categorical variables
 ```{r echo=FALSE, include = FALSE}
 skimr::skim(gun_control) %>%
             select(variable:stat,value) %>%
@@ -135,10 +136,11 @@ skimr::skim(gun_control) %>%
 #As we can see, the dataset has no missing data. All the information, including population statistics, background check / applications statistics, approved licensees statistics,  are generalized for different states (except for D.C.) are inlcuded 
 ```
 
+<br>
 
-### Approved license vs. law strength
+### Approval rate vs. Law strength
 
-The first plot show the relationship between the percentage of people get approved for gun licenses, mortality rate and the law strength in each state. 
+This plot shows the relationships between approval rate, mortality rate, and law strength in each state. 
 
 <center> 
 
@@ -169,11 +171,15 @@ gun_control %>%
 
 </center> 
 
-As we can see in this plot, in different states, the percentage of people get approved for gun licenses is positively connected with law strength. This is intuitive because it's easier to get approved for guns in states with less strict gun laws. Also, with less strict gun laws, states generally have higher mortality rate. An regression model is built to further explain this relationship in model panel.
+*Comments:*
 
+Across different states, the approval rate for gun licenses is positively correlated with law strength. This is intuitive because we would expect it to be easier to be approved for a gun in states with less stringent gun laws. Also, with laxer gun laws states generally have higher mortality rates. A regression model was built to further explain this relationship, and information on this can be found through the **Regression Analysis** tab.
 
-## Application for guns vs. law strength
-The second plot shows the relationship application percentage (proportion of people applying for the license in total population), mortality rate and the law strength.
+<br>
+
+## Application rate vs. Law strength
+
+This plot shows the relationship between application rate, mortality rate, and law strength in each state.
 
 <center> 
 
@@ -204,10 +210,8 @@ gun_control %>%
 
 </center> 
 
-As we can see in the plot, 
+*Comments:*
 
-+ In most states, the percentage of people tried to apply for gun licenses is relatively same across the country, no matter how strict the law is. This shows that people in different state share equal passion to apply for guns.  
-+ The only exception is Kentucky. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people don't need to license or permit to own guns for private uses. This explains exceptional passion to apply for guns in Kentucky, leading to an exceptional high proportion of application for background checks. The reason that the total proportion is greater than one might be companies applying for background checks for public gun sales.
-
-
++ The percentage of people who tried to apply for gun licensing is relatively consistent across states, regardless of law strength in a given state. This shows that people across the country share an interest and enthusiasm in guns.  
++ The notable exception is Kentucky. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people do not need a license or a permit to own guns for private use in Kentucky. This explains the exceptional passion to apply for guns in that locale, leading to an exceptionally high application rate. 
 
