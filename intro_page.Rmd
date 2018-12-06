@@ -15,7 +15,7 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
 
 ```{r, include=FALSE}
-gun_violence_data = read_csv("./data/gun_violence_data_2013_2018.csv")
+gun_violence_data = read_csv("./gun_violence_data/gun_violence_data_2013_2018.csv")
 
 gun_v_tidy = 
 	gun_violence_data %>% 
