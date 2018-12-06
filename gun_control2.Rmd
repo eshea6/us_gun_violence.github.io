@@ -216,3 +216,5 @@ gun_control %>%
 + The percentage of people who tried to apply for gun licensing is relatively consistent across states, regardless of law strength in a given state. This shows that **people across the country share an interest and enthusiasm in guns**.  
 + The notable exception is **Kentucky**. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people do not need a license or a permit to own guns for private use in Kentucky. This explains the exceptional passion to apply for guns in that locale, leading to an exceptionally high application rate. 
 
+<br>
+
