@@ -15,10 +15,10 @@ navbar:
       href: gun_control2.html
     - text: "Conclusions"
       href: conclusions.html
-    - text: "Webcast"
-      href: webcast.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<yl3181@cumc.columbia.edu>
     - icon: fa-github fa-lg
-      href: https://github.com/eshea6/us_gun_violence.github.io
+      href: https://github.com/devon-m2/p8105_Gun-Violence_Final-Report
 output:
   html_document: 
     theme: cosmo
